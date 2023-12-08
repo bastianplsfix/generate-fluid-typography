@@ -41,8 +41,10 @@ function generateClamp(values) {
     return `clamp(${min}, ${preferred}, ${max})`;
 }
 
-function generateCss(array) {
-    let cssResult = "";
+export function generateCss(array) {
+    let cssRuleSet = "";
+    let cssSupports = "";
+    let cssFallback = "";
 
     array.forEach(item => {
         const values = {
@@ -50,28 +52,58 @@ function generateCss(array) {
             maxViewportWidth,
             minFontSize: item.minFontSize,
             maxFontSize: item.maxFontSize,
-            unit
+            unit,
         };
 
         const fontSize = generateClamp(values);
         let lineHeightRule = item.lineHeight ? `line-height: ${item.lineHeight};\n` : "";
 
-        cssResult += `
-.${item.class} {
-    font-size: ${fontSize};
-    ${lineHeightRule}
-}
-        `;
+        const minFontSize = `${item.minFontSize / remSize}rem`;
+        const maxFontSize = `${item.maxFontSize / remSize}rem`;
+
+        cssRuleSet += `
+    .${item.class} {
+      font-size: var(--${item.class});
+      ${lineHeightRule}
+    }
+    `;
+
+        cssSupports += `
+    --${item.class}: ${fontSize};
+    `;
+
+        cssFallback += `
+    --${item.class}: ${minFontSize};
+    @media screen and (min-width: 1280px) {
+      --${item.class}: ${maxFontSize};
+    }
+    `;
     });
 
-    return cssResult;
+    return `${cssRuleSet}
+
+    @supports (font-size: clamp(1rem, 1vw, 1rem)) {
+      :root {
+        ${cssSupports}
+      }
+    }
+
+    @supports not (font-size: clamp(1rem, 1vw, 1rem)) {
+      :root {
+        ${cssFallback}
+      }
+    }
+  `;
+
 }
 
 // Usage
 const array = [
-    {class: "display", minFontSize: 16, maxFontSize: 48, lineHeight: 1.2}, 
-    {class: "body", minFontSize: 16, maxFontSize: 20, lineHeight: 1.5},
-    {class: "subtitle", minFontSize: 16, maxFontSize: 30, lineHeight: 1.5}
+    {class: "display", minFontSize: 16, maxFontSize: 48, lineHeight: "1.2"},
+    {class: "body", minFontSize: 16, maxFontSize: 20, lineHeight: "1.5"},
+    {class: "subtitle", minFontSize: 16, maxFontSize: 30, lineHeight: "1.2"}
 ];
 
 console.log(generateCss(array));
+
+
