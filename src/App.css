@@ -1,31 +1,26 @@
 .display {
     font-size: var(--display);
     line-height: 1.2;
-
 }
 
 .body {
     font-size: var(--body);
     line-height: 1.5;
-
 }
 
 .subtitle {
     font-size: var(--subtitle);
     line-height: 1.2;
-
 }
-
 
 @supports (font-size: clamp(1rem, 1vw, 1rem)) {
     :root {
 
-        --display: clamp(1rem, -0.4286rem + 4.5714vw, 3rem);
+        --display: clamp(1rem, 0.0909rem + 3.6364vw, 3rem);
 
-        --body: clamp(1rem, 0.8214rem + 0.5714vw, 1.25rem);
+        --body: clamp(1rem, 0.8864rem + 0.4545vw, 1.25rem);
 
-        --subtitle: clamp(1rem, 0.375rem + 2vw, 1.875rem);
-
+        --subtitle: clamp(1rem, 0.6023rem + 1.5909vw, 1.875rem);
     }
 }
 
@@ -33,19 +28,18 @@
     :root {
 
         --display: 1rem;
-        @media screen and (min-width: 1280px) {
-            --display: 3rem;
-        }
 
         --body: 1rem;
-        @media screen and (min-width: 1280px) {
-            --body: 1.25rem;
-        }
 
         --subtitle: 1rem;
+
         @media screen and (min-width: 1280px) {
+
+            --display: 3rem;
+
+            --body: 1.25rem;
+
             --subtitle: 1.875rem;
         }
-
     }
 }
