@@ -42,10 +42,10 @@ function generateClamp(values) {
 }
 
 export function generateCss(array) {
-    let cssRuleSet = "";
-    let cssSupports = "";
-    let cssFallback = "";
-    let cssFallbackMedia = "";
+    let cssRuleSet = [];
+    let cssSupports = [];
+    let cssFallback = [];
+    let cssFallbackMedia = [];
 
     array.forEach(item => {
         const values = {
@@ -57,47 +57,49 @@ export function generateCss(array) {
         };
 
         const fontSize = generateClamp(values);
-        let lineHeightRule = item.lineHeight ? `line-height: ${item.lineHeight};` : "";
+        const lineHeightRule = item.lineHeight ? `line-height: ${item.lineHeight};` : "";
 
         const minFontSize = `${item.minFontSize / remSize}rem`;
         const maxFontSize = `${item.maxFontSize / remSize}rem`;
 
-        cssRuleSet += `
-.${item.class} {
+        cssRuleSet.push(`.${item.class} {
   font-size: var(--${item.class});
   ${lineHeightRule}
-}
-`;
+}`);
 
-        cssSupports += `
---${item.class}: ${fontSize};
-`;
-
-        cssFallback += `
---${item.class}: ${minFontSize};
-`;
-        cssFallbackMedia += `
-  --${item.class}: ${maxFontSize};
-`;
+        cssSupports.push(`--${item.class}: ${fontSize};`);
+        cssFallback.push(`--${item.class}: ${minFontSize};`);
+        cssFallbackMedia.push(`--${item.class}: ${maxFontSize};`);
     });
 
-    let entireCss = `${cssRuleSet}
+    let entireCss = `${cssRuleSet.join('\n')}
 @supports (font-size: clamp(1rem, 1vw, 1rem)) {
   :root {
-    ${cssSupports}
+    ${cssSupports.join('\n')}
   }
 }
 @supports not (font-size: clamp(1rem, 1vw, 1rem)) {
     :root {
-      ${cssFallback}
+      ${cssFallback.join('\n')}
       @media screen and (min-width: ${maxViewportWidth}px) {
-        ${cssFallbackMedia}
+        ${cssFallbackMedia.join('\n')}
       }
     }
-}`
+}`;
 
     return prettyPrintCss(entireCss);
 }
+
+function prettyPrintCss(css) {
+    // Replace more than two newlines with a single newline
+    css = css.replace(/\n{2,}/g, '\n');
+
+    // Add an extra newline before CSS blocks
+    css = css.replace(/([;{])\s*(--|\..+|@supports|@media)/g, '$1\n\n$2');
+
+    return css;
+}
+
 
 
 // Usage
@@ -108,15 +110,5 @@ const array = [
 ];
 
 console.log(generateCss(array));
-
-function prettyPrintCss(css) {
-    // Replace more than two newlines with a single newline
-    css = css.replace(/\n{2,}/g, '\n');
-
-    // Add an extra newline before CSS blocks
-    css = css.replace(/([;\{])\s*(--|\..+|@supports|@media)/g, '$1\n\n$2');
-
-    return css;
-}
 
 
