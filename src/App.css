@@ -1,45 +1,83 @@
 .display {
     font-size: var(--display);
     line-height: 1.2;
+    font-weight: 600;
+}
+
+.heading-1 {
+    font-size: var(--heading-1);
+    line-height: 1.2;
+    font-weight: 600;
+}
+
+.heading-2 {
+    font-size: var(--heading-2);
+    line-height: 1.2;
+    font-weight: 600;
+}
+
+.heading-3 {
+    font-size: var(--heading-3);
+    line-height: 1.2;
+    font-weight: 600;
+}
+
+.lead {
+    font-size: var(--lead);
+    line-height: 1.5;
+    font-weight: 400;
 }
 
 .body {
     font-size: var(--body);
     line-height: 1.5;
+    font-weight: 400;
 }
 
-.subtitle {
-    font-size: var(--subtitle);
-    line-height: 1.2;
+.small {
+    font-size: var(--small);
+    line-height: 1.5;
+    font-weight: 400;
+}
+
+.label {
+    font-size: var(--label);
+    line-height: 1.5;
+    font-weight: 400;
 }
 
 @supports (font-size: clamp(1rem, 1vw, 1rem)) {
     :root {
-
-        --display: clamp(1rem, 0.0909rem + 3.6364vw, 3rem);
-
-        --body: clamp(1rem, 0.8864rem + 0.4545vw, 1.25rem);
-
-        --subtitle: clamp(1rem, 0.6023rem + 1.5909vw, 1.875rem);
+        --display: clamp(2.5rem, 1.3636rem + 4.5455vw, 5rem);
+        --heading-1: clamp(2rem, 1.5455rem + 1.8182vw, 3rem);
+        --heading-2: clamp(1.5rem, 1.2727rem + 0.9091vw, 2rem);
+        --heading-3: clamp(1.25rem, 1.1364rem + 0.4545vw, 1.5rem);
+        --lead: clamp(1.25rem, 1.1364rem + 0.4545vw, 1.5rem);
+        --body: clamp(1rem, 0.9432rem + 0.2273vw, 1.125rem);
+        --small: clamp(0.875rem, 0.8182rem + 0.2273vw, 1rem);
+        --label: clamp(0.75rem, 0.75rem + 0vw, 0.75rem);
     }
 }
 
 @supports not (font-size: clamp(1rem, 1vw, 1rem)) {
     :root {
-
-        --display: 1rem;
-
+        --display: 2.5rem;
+        --heading-1: 2rem;
+        --heading-2: 1.5rem;
+        --heading-3: 1.25rem;
+        --lead: 1.25rem;
         --body: 1rem;
-
-        --subtitle: 1rem;
-
+        --small: 0.875rem;
+        --label: 0.75rem;
         @media screen and (min-width: 1280px) {
-
-            --display: 3rem;
-
-            --body: 1.25rem;
-
-            --subtitle: 1.875rem;
+            --display: 5rem;
+            --heading-1: 3rem;
+            --heading-2: 2rem;
+            --heading-3: 1.5rem;
+            --lead: 1.5rem;
+            --body: 1.125rem;
+            --small: 1rem;
+            --label: 0.75rem;
         }
     }
 }
