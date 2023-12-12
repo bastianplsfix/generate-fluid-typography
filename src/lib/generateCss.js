@@ -58,6 +58,7 @@ export function generateCss(array) {
 
         const fontSize = generateClamp(values);
         const lineHeightRule = item.lineHeight ? `line-height: ${item.lineHeight};` : "";
+        const fontWeightRule = item.fontWeight ? `font-weight: ${item.fontWeight};` : `font-weight: 400;`;
 
         const minFontSize = `${item.minFontSize / remSize}rem`;
         const maxFontSize = `${item.maxFontSize / remSize}rem`;
@@ -65,6 +66,7 @@ export function generateCss(array) {
         cssRuleSet.push(`.${item.class} {
   font-size: var(--${item.class});
   ${lineHeightRule}
+  ${fontWeightRule}
 }`);
 
         cssSupports.push(`--${item.class}: ${fontSize};`);
@@ -104,9 +106,14 @@ function prettyPrintCss(css) {
 
 // Usage
 const array = [
-    {class: "display", minFontSize: 16, maxFontSize: 48, lineHeight: "1.2"},
-    {class: "body", minFontSize: 16, maxFontSize: 20, lineHeight: "1.5"},
-    {class: "subtitle", minFontSize: 16, maxFontSize: 30, lineHeight: "1.2"}
+    {class: "display", minFontSize: 40, maxFontSize: 80, lineHeight: "1.2", fontWeight: 600},
+    {class: "heading-1", minFontSize: 32, maxFontSize: 48, lineHeight: "1.2", fontWeight: 600},
+    {class: "heading-2", minFontSize: 24, maxFontSize: 32, lineHeight: "1.2", fontWeight: 600},
+    {class: "heading-2", minFontSize: 20, maxFontSize: 24, lineHeight: "1.2", fontWeight: 600},
+    {class: "lead", minFontSize: 20, maxFontSize: 24, lineHeight: "1.5"},
+    {class: "body", minFontSize: 16, maxFontSize: 18, lineHeight: "1.5"},
+    {class: "small", minFontSize: 16, maxFontSize: 14, lineHeight: "1.5"},
+    {class: "label", minFontSize: 12, maxFontSize: 12, lineHeight: "1.5"}
 ];
 
 console.log(generateCss(array));
